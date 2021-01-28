@@ -33,4 +33,3 @@ double StopWatch::stop(){
     _stop = scaleNum;
     return _stop;
 }
-
