@@ -1,20 +1,32 @@
 #include "StopWatch.h"
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
 using std::cout;
 using std::endl;
+using std::vector;
+using std::string;
+using std::ifstream;
+
 
 int main() {
-    int x;
-    StopWatch timer;
-    timer.start();
-    for(auto i = 0; i < 5; ++i){
-        cout << "enter a number:" << endl;
-        std::cin >> x;
+
+    ifstream myFile;
+    string fileName = "big.txt";
+    myFile.open(fileName);
+    if(!myFile){
+        cout << "file not found." << endl;
     }
-    timer.stop();
-    cout << "Start Time: " << timer.start() << endl;
-    cout << "Stop Time: " << timer.stop() << endl;
-    auto endTime = timer.stop()-timer.start();
-    std::cout << "time passed: " << endTime << std::endl;
+
+
+    //int x;
+    //StopWatch timer;
+    //timer.start();
+    //timer.stop();
+    //cout << "Start Time: " << timer.start() << endl;
+    //cout << "Stop Time: " << timer.stop() << endl;
+    //auto endTime = timer.stop()-timer.start();
+    //std::cout << "time passed: " << endTime << std::endl;
     return 0;
 }
