@@ -13,6 +13,7 @@ using std::string;
 int main() {
     StopWatch timer;
     timer.start();
+    auto t1 = std::chrono::high_resolution_clock::now();
     // must declare with {""} or else push_back ignore first instance
     vector <string> fileVector = {""};
     string nameCopy;
@@ -34,10 +35,14 @@ int main() {
         myFile.close();
 
         int x;
+        std::cin >> x;
         timer.stop();
-        auto endTime = timer.stop()-timer.start();
+        auto t2 = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> fp_ms = t2-t1;
+        auto endTime = timer.milliSec();
       //  timer.milliSec(timer.start(), timer.stop());
-        std::cout << "time passed: " << timer.milliSec(timer.start(), timer.stop()) << std::endl;
+      std::cout << "test time: " << fp_ms.count() << std:: endl;
+        std::cout << "time passed: " << endTime << std::endl;
     }
     return 0;
 }

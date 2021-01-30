@@ -12,16 +12,16 @@
 class StopWatch{
 public:
     StopWatch();
-    StopWatch(const std::chrono::system_clock &);
+    StopWatch(const std::chrono::high_resolution_clock &);
     ~StopWatch();
 
-    std::chrono::system_clock::time_point start();
-    std::chrono::system_clock::time_point stop();
-    double milliSec(const std::chrono::system_clock::time_point &start, const std::chrono::system_clock::time_point &stop);
+    std::chrono::high_resolution_clock::time_point start();
+    std::chrono::high_resolution_clock::time_point stop();
+    double milliSec();
     double sec();
 private:
-    std::chrono::system_clock::time_point _start;
-    std::chrono::system_clock::time_point _stop;
+    std::chrono::high_resolution_clock::time_point _start;
+    std::chrono::high_resolution_clock::time_point _stop;
     double _milliSec;
     double _seconds;
 };
