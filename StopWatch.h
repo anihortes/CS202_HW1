@@ -15,13 +15,13 @@ public:
     StopWatch(const std::chrono::system_clock &);
     ~StopWatch();
 
-    double start();
-    double stop();
-    double milliSec();
+    std::chrono::system_clock::time_point start();
+    std::chrono::system_clock::time_point stop();
+    double milliSec(const std::chrono::system_clock::time_point &start, const std::chrono::system_clock::time_point &stop);
     double sec();
 private:
-    double _start;
-    double _stop;
+    std::chrono::system_clock::time_point _start;
+    std::chrono::system_clock::time_point _stop;
     double _milliSec;
     double _seconds;
 };

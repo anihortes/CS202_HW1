@@ -11,6 +11,8 @@ using std::string;
 
 
 int main() {
+    StopWatch timer;
+    timer.start();
     // must declare with {""} or else push_back ignore first instance
     vector <string> fileVector = {""};
     string nameCopy;
@@ -32,11 +34,10 @@ int main() {
         myFile.close();
 
         int x;
-        StopWatch timer;
-        timer.start();
         timer.stop();
         auto endTime = timer.stop()-timer.start();
-        std::cout << "time passed: " << endTime.count() << std::endl;
+      //  timer.milliSec(timer.start(), timer.stop());
+        std::cout << "time passed: " << timer.milliSec(timer.start(), timer.stop()) << std::endl;
     }
     return 0;
 }

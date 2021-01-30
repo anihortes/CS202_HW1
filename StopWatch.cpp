@@ -17,22 +17,19 @@ StopWatch::~StopWatch(){
     cout << "Destructor is called on" << endl;
 }
 
-double StopWatch::start(){
+std::chrono::system_clock::time_point StopWatch::start(){
     auto chronoStartTime = std::chrono::system_clock::now();
-    auto t_c = std::chrono::system_clock::to_time_t(chronoStartTime-std::chrono::seconds(86400));
-    std::localtime(&t_c);
-    std::chrono::seconds test;
-    auto duration = std::chrono::duration<double>(chronoStartTime.time_since_epoch());
-    auto scaleNum = test.count();
-    _start = scaleNum;
-    return _start;
+    _start = chronoStartTime;
+    return chronoStartTime;
 }
 
-double StopWatch::stop(){
+std::chrono::system_clock::time_point StopWatch::stop(){
     auto chronoStopTime = std::chrono::system_clock::now();
-    std::chrono::seconds test;
-    auto duration = std::chrono::duration<double>(chronoStopTime.time_since_epoch());
-    auto scaleNum = test.count();
-    _stop = scaleNum;
+    _stop = chronoStopTime;
     return _stop;
+}
+
+double StopWatch::milliSec(const std::chrono::system_clock::time_point &start, const std::chrono::system_clock::time_point &stop){
+    auto endTime = std::chrono::duration_cast<std::chrono::microseconds>(stop-start);
+    double timeAsDouble = endTime.count();
 }
