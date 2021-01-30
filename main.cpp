@@ -1,4 +1,4 @@
-//#include "StopWatch.h"
+#include "StopWatch.h"
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -31,14 +31,12 @@ int main() {
         //ALWAYS CLOSE FILE WHEN DONE READING
         myFile.close();
 
-        //int x;
-        //StopWatch timer;
-        //timer.start();
-        //timer.stop();
-        //cout << "Start Time: " << timer.start() << endl;
-        //cout << "Stop Time: " << timer.stop() << endl;
-        //auto endTime = timer.stop()-timer.start();
-        //std::cout << "time passed: " << endTime << std::endl;
+        int x;
+        StopWatch timer;
+        timer.start();
+        timer.stop();
+        auto endTime = timer.stop()-timer.start();
+        std::cout << "time passed: " << endTime.count() << std::endl;
     }
     return 0;
 }
