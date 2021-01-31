@@ -9,6 +9,9 @@ using std::ifstream;
 #include <string>
 using std::string;
 #include <list>
+using std::list;
+#include <forward_list>
+using std::forward_list;
 
 vector<string> fileReadWithVector(const string &fileName){
     // must declare with {""} or else push_back ignore first instance
@@ -28,10 +31,11 @@ vector<string> fileReadWithVector(const string &fileName){
         //ALWAYS CLOSE FILE WHEN DONE READING
         myFile.close();
     }
+    fileVector[1].find("the");
     return fileVector;
 }
 
-std::list<string> fileReadWithList(const string &fileName){
+list<string> fileReadWithList(const string &fileName){
     std::list<string> fileList;
     string nameCopy;
     ifstream myFile;
@@ -49,6 +53,29 @@ std::list<string> fileReadWithList(const string &fileName){
         myFile.close();
     }
     return fileList;
+}
+
+forward_list<string> readFilewithForward_List(const string &fileName){
+    forward_list<string> fileForwardList;
+    fileForwardList.assign({""});
+    string nameCopy;
+    ifstream myFile;
+    myFile.open(fileName, std::ios::in | std::ios::binary);
+    if(!myFile){
+        cout << "file not found." << endl;
+    }
+    else {
+        cout << "file found." << endl;
+        //print file into vector
+        int nthPlaceInList = 0;
+        while (myFile >> nameCopy) {
+            fileForwardList.push_front(nameCopy);
+            nthPlaceInList ++;
+        }
+        //ALWAYS CLOSE FILE WHEN DONE READING
+        myFile.close();
+    }
+    return fileForwardList;
 }
 
 int main() {
@@ -87,8 +114,14 @@ int main() {
     listTimer.start();
     fileReadWithList(fileName);
     listTimer.stop();
-    std::cout << "\nTime to read with list (seconds): " << listTimer.timeSecond() << std:: endl;
+    std::cout << "Time to read with list (seconds): " << listTimer.timeSecond() << std:: endl;
     std::cout << "Time to read list (milliseconds): " << listTimer.timeMilliSec()<< std::endl;
+    StopWatch forwardListTimer;
+    forwardListTimer.start();
+    fileReadWithList(fileName);
+    forwardListTimer.stop();
+    std::cout << "Time to read with forward_list (seconds): " << forwardListTimer.timeSecond() << std:: endl;
+    std::cout << "Time to read forward_list (milliseconds): " << forwardListTimer.timeMilliSec()<< std::endl;
 
     return 0;
 }
