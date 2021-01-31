@@ -1,6 +1,13 @@
-//
-// Created by A. Harrison Owen on 1/28/2021.
-//
+/*
+ * start() : uses high res clock. takes current time on computer
+  _start member is updated
+ * stop() : uses high res clock. takes current time on computer
+  _stop member is updated
+ * timeMilliSec() : time in milliseconds = (_stop) - (_start)
+  returns double, _milliSec is updated
+ * timeSecond() : time in seconds = (_stop) - (_start)
+  returns double, _seconds is updated
+ */
 
 #include "StopWatch.h"
 #include <iostream>
@@ -10,11 +17,11 @@ using std::cout;
 using std::endl;
 
 StopWatch::StopWatch(){
-    cout << "Default constructor" << endl;
+    //cout << "Default constructor" << endl;
 }
 
 StopWatch::~StopWatch(){
-    cout << "Destructor is called on" << endl;
+    //cout << "Destructor is called on" << endl;
 }
 
 std::chrono::high_resolution_clock::time_point StopWatch::start(){
@@ -29,7 +36,12 @@ std::chrono::high_resolution_clock::time_point StopWatch::stop(){
     return _stop;
 }
 
-double StopWatch::milliSec(){
-    auto endTime = std::chrono::duration<double, std::milli>(_stop - _start).count();
-    return endTime;
+double StopWatch::timeMilliSec(){
+    _milliSec = std::chrono::duration<double, std::milli>(_stop - _start).count();
+    return _milliSec;
+}
+
+double StopWatch::timeSecond(){
+    _seconds = std::chrono::duration<double>(_stop - _start).count();
+    return _seconds;
 }

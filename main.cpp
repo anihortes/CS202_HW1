@@ -12,6 +12,12 @@ using std::string;
 using std::list;
 #include <forward_list>
 using std::forward_list;
+#include <algorithm>
+using std::sort;
+using std::search;
+using std::binary_search;
+using std::rotate;
+
 
 vector<string> fileReadWithVector(const string &fileName){
     // must declare with {""} or else push_back ignore first instance
@@ -23,7 +29,6 @@ vector<string> fileReadWithVector(const string &fileName){
         cout << "file not found." << endl;
     }
     else {
-        cout << "file found." << endl;
         //print file into vector
         while (myFile >> nameCopy) {
             fileVector.push_back(nameCopy);
@@ -31,7 +36,6 @@ vector<string> fileReadWithVector(const string &fileName){
         //ALWAYS CLOSE FILE WHEN DONE READING
         myFile.close();
     }
-    fileVector[1].find("the");
     return fileVector;
 }
 
@@ -44,7 +48,6 @@ list<string> fileReadWithList(const string &fileName){
         cout << "file not found." << endl;
     }
     else {
-        cout << "file found." << endl;
         //print file into vector
         while (myFile >> nameCopy) {
             fileList.push_back(nameCopy);
@@ -55,7 +58,7 @@ list<string> fileReadWithList(const string &fileName){
     return fileList;
 }
 
-forward_list<string> readFilewithForward_List(const string &fileName){
+forward_list<string> fileReadWithForwardList(const string &fileName){
     forward_list<string> fileForwardList;
     fileForwardList.assign({""});
     string nameCopy;
@@ -65,7 +68,6 @@ forward_list<string> readFilewithForward_List(const string &fileName){
         cout << "file not found." << endl;
     }
     else {
-        cout << "file found." << endl;
         //print file into vector
         int nthPlaceInList = 0;
         while (myFile >> nameCopy) {
@@ -104,24 +106,32 @@ int main() {
             getline(std::cin, bookTitle);
         }
     }
+
     StopWatch vectorTimer;
+    vector<string> sortedVector;
+    sortedVector = fileReadWithVector(fileName);
     vectorTimer.start();
-    fileReadWithVector(fileName);
+    sort(sortedVector.begin(), sortedVector.end());
     vectorTimer.stop();
-    std::cout << "Time to read with vector (seconds): " << vectorTimer.timeSecond() << std:: endl;
-    std::cout << "Time to read vector (milliseconds): " << vectorTimer.timeMilliSec()<< std::endl;
+    std::cout << "Time to sort with vector (seconds): " << vectorTimer.timeSecond() << std:: endl;
+    std::cout << "Time to sort vector (milliseconds): " << vectorTimer.timeMilliSec()<< std::endl;
+
     StopWatch listTimer;
+    fileReadWithList(fileName);
+    list<string> sortedList = fileReadWithList(fileName);
     listTimer.start();
-    fileReadWithList(fileName);
+    sortedList.sort();
     listTimer.stop();
-    std::cout << "Time to read with list (seconds): " << listTimer.timeSecond() << std:: endl;
-    std::cout << "Time to read list (milliseconds): " << listTimer.timeMilliSec()<< std::endl;
+    std::cout << "Time to sort with list (seconds): " << listTimer.timeSecond() << std:: endl;
+    std::cout << "Time to sort list (milliseconds): " << listTimer.timeMilliSec()<< std::endl;
+
     StopWatch forwardListTimer;
+    forward_list<string> sortedForwardList = fileReadWithForwardList(fileName);
     forwardListTimer.start();
-    fileReadWithList(fileName);
+    sortedForwardList.sort();
     forwardListTimer.stop();
-    std::cout << "Time to read with forward_list (seconds): " << forwardListTimer.timeSecond() << std:: endl;
-    std::cout << "Time to read forward_list (milliseconds): " << forwardListTimer.timeMilliSec()<< std::endl;
+    std::cout << "Time to sort with forward_list (seconds): " << forwardListTimer.timeSecond() << std:: endl;
+    std::cout << "Time to sort forward_list (milliseconds): " << forwardListTimer.timeMilliSec()<< std::endl;
 
     return 0;
 }
