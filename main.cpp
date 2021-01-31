@@ -17,12 +17,16 @@ using std::sort;
 using std::search;
 using std::binary_search;
 using std::rotate;
+#include <random>
+using std::random_device;
+using std::mt19937;
+using std::uniform_int_distribution;
 
-
+//fileName : passed by const reference. used to open file 
 vector<string> fileReadWithVector(const string &fileName){
-    // must declare with {""} or else push_back ignore first instance
+    // must declare with {""} or else push_back will ignore first time it's called
     vector <string> fileVector = {""};
-    string nameCopy;
+    string nameCopy; // iterates in file, used to copy string in file to container
     ifstream myFile;
     myFile.open(fileName, std::ios::in | std::ios::binary);
     if(!myFile){
@@ -39,9 +43,10 @@ vector<string> fileReadWithVector(const string &fileName){
     return fileVector;
 }
 
+// fileName : passed by const reference. used to open file
 list<string> fileReadWithList(const string &fileName){
     std::list<string> fileList;
-    string nameCopy;
+    string nameCopy; // iterates in file, used to copy string in file to container
     ifstream myFile;
     myFile.open(fileName, std::ios::in | std::ios::binary);
     if(!myFile){
@@ -58,10 +63,21 @@ list<string> fileReadWithList(const string &fileName){
     return fileList;
 }
 
-forward_list<string> fileReadWithForwardList(const string &fileName){
+/*
+ * fileName : passed by const reference. used to open file
+ * randomString : passed by reference, randomString will be updated
+  for when timing is tested to find a word
+ * vectorSize : passed by value, used for random number generation
+ */
+forward_list<string> fileReadWithForwardList(const string &fileName, string &randomString, int vectorSize){\
+    //get random number between 1 and number of items in fileVector
+    random_device randomStringInFile;
+    mt19937 gen(randomStringInFile());
+    uniform_int_distribution<>dis(1,vectorSize);
+    //make forward_list and write to list from file
     forward_list<string> fileForwardList;
     fileForwardList.assign({""});
-    string nameCopy;
+    string nameCopy; // iterates in file, used to copy string in file to container
     ifstream myFile;
     myFile.open(fileName, std::ios::in | std::ios::binary);
     if(!myFile){
@@ -69,10 +85,14 @@ forward_list<string> fileReadWithForwardList(const string &fileName){
     }
     else {
         //print file into vector
-        int nthPlaceInList = 0;
+        int stringLocation = 0;
         while (myFile >> nameCopy) {
             fileForwardList.push_front(nameCopy);
-            nthPlaceInList ++;
+            //pulls "random" word out of file
+            if(stringLocation == dis(gen)){
+                randomString = nameCopy;
+            }
+                ++stringLocation;
         }
         //ALWAYS CLOSE FILE WHEN DONE READING
         myFile.close();
@@ -113,7 +133,7 @@ int main() {
     vectorTimer.start();
     sort(sortedVector.begin(), sortedVector.end());
     vectorTimer.stop();
-    std::cout << "Time to sort with vector (seconds): " << vectorTimer.timeSecond() << std:: endl;
+    std::cout << "\nTime to sort with vector (seconds): " << vectorTimer.timeSecond() << std:: endl;
     std::cout << "Time to sort vector (milliseconds): " << vectorTimer.timeMilliSec()<< std::endl;
 
     StopWatch listTimer;
@@ -122,16 +142,18 @@ int main() {
     listTimer.start();
     sortedList.sort();
     listTimer.stop();
-    std::cout << "Time to sort with list (seconds): " << listTimer.timeSecond() << std:: endl;
+    std::cout << "\nTime to sort with list (seconds): " << listTimer.timeSecond() << std:: endl;
     std::cout << "Time to sort list (milliseconds): " << listTimer.timeMilliSec()<< std::endl;
 
     StopWatch forwardListTimer;
-    forward_list<string> sortedForwardList = fileReadWithForwardList(fileName);
+    string randomString;
+    forward_list<string> sortedForwardList = fileReadWithForwardList(fileName, randomString, sortedVector.size());
     forwardListTimer.start();
     sortedForwardList.sort();
     forwardListTimer.stop();
-    std::cout << "Time to sort with forward_list (seconds): " << forwardListTimer.timeSecond() << std:: endl;
+    std::cout << "\nTime to sort with forward_list (seconds): " << forwardListTimer.timeSecond() << std:: endl;
     std::cout << "Time to sort forward_list (milliseconds): " << forwardListTimer.timeMilliSec()<< std::endl;
+
 
     return 0;
 }
