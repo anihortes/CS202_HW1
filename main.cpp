@@ -102,8 +102,13 @@ forward_list<string> fileReadWithForwardList(const string &fileName, string &ran
     }
     return fileForwardList;
 }
-
-void writeToExcel(){
+/*
+ * TO DO!!!!!!!!!!!!!
+ * TO DO!!!!!!!!!!!!!
+ * TO DO!!!!!!!!!!!!!
+ * TO DO!!!!!!!!!!!!!
+ */
+void writeToExcel(const map<string, int> &excelValues){
     string nameCopy; // iterates in file, used to copy string in file to container
     std::filebuf fileBuffer;
     fileBuffer.open ("CS201HW1.csv", std::ios::out);
@@ -113,8 +118,8 @@ void writeToExcel(){
     }
     else {
         //print file into vector
-        while (myFile << nameCopy) {
-
+        while (true) {
+        //TO DO!!!!!!!!!!!!!
         }
         //ALWAYS CLOSE FILE WHEN DONE READING
         fileBuffer.close();
