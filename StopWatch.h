@@ -17,8 +17,8 @@ public:
 
     std::chrono::high_resolution_clock::time_point start();
     std::chrono::high_resolution_clock::time_point stop();
-    double milliSec();
-    double sec();
+    double timeMilliSec();
+    double timeSecond();
 private:
     std::chrono::high_resolution_clock::time_point _start;
     std::chrono::high_resolution_clock::time_point _stop;

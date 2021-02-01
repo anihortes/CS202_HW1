@@ -103,13 +103,10 @@ forward_list<string> fileReadWithForwardList(const string &fileName, string &ran
     return fileForwardList;
 }
 /*
- * TO DO!!!!!!!!!!!!!
- * TO DO!!!!!!!!!!!!!
- * TO DO!!!!!!!!!!!!!
- * TO DO!!!!!!!!!!!!!
+ * containerTimings : passed by const ref
+   prints into .csv file
  */
-void writeToExcel(const map<string, int> &excelValues){
-    string nameCopy; // iterates in file, used to copy string in file to container
+void writeToExcel(const map<string, int> &containerTimings){
     std::filebuf fileBuffer;
     fileBuffer.open ("CS201HW1.csv", std::ios::out);
     std::ostream myFile(&fileBuffer);
@@ -117,11 +114,8 @@ void writeToExcel(const map<string, int> &excelValues){
         cout << "file not found." << endl;
     }
     else {
-        //print file into vector
-        while (true) {
-        //TO DO!!!!!!!!!!!!!
-        }
-        //ALWAYS CLOSE FILE WHEN DONE READING
+        for(const auto &[s,i] : containerTimings)
+            myFile << s << ","<<i<<endl;
         fileBuffer.close();
     }
 }
@@ -154,60 +148,49 @@ int main() {
         }
     }
 
-// make vector, print to vector, sort vector
-    map<string, int> excelValues;
+// make vector, print to vector, time sort vector, insert into map
+    map<string, int> containerTimings;
     StopWatch vectorTimer;
     vector<string> sortedVector;
     sortedVector = fileReadWithVector(fileName);
     vectorTimer.start();
     sort(sortedVector.begin(), sortedVector.end());
-    vectorTimer.stop();
-    //std::cout << "\nTime to sort with vector (seconds): " << vectorTimer.timeSecond() << std:: endl;
-    //std::cout << "Time to sort vector (milliseconds): " << vectorTimer.timeMilliSec()<< std::endl;
     std::pair<string, int>  vectorSort ("Vector sort (ms):", vectorTimer.timeMilliSec());
-    excelValues.insert(vectorSort);
-
+    containerTimings.insert(vectorSort);
+// make list, print to list, time sort list, insert into map
     StopWatch listTimer;
     fileReadWithList(fileName);
     list<string> sortedList = fileReadWithList(fileName);
     listTimer.start();
     sortedList.sort();
     listTimer.stop();
-    //std::cout << "\nTime to sort with list (seconds): " << listTimer.timeSecond() << std:: endl;
-    //std::cout << "Time to sort list (milliseconds): " << listTimer.timeMilliSec()<< std::endl;
     std::pair<string, int>  listSort ("List sort (ms):", listTimer.timeMilliSec());
-    excelValues.insert(listSort);
-
+    containerTimings.insert(listSort);
+// make forward_list, print to forward_list, time sort forward_list,insert into map
     StopWatch forwardListTimer;
     string randomString;
     forward_list<string> sortedForwardList = fileReadWithForwardList(fileName, randomString, sortedVector.size());
     forwardListTimer.start();
     sortedForwardList.sort();
     forwardListTimer.stop();
-    //std::cout << "\nTime to sort with forward_list (seconds): " << forwardListTimer.timeSecond() << std:: endl;
-    //std::cout << "Time to sort forward_list (milliseconds): " << forwardListTimer.timeMilliSec()<< std::endl;
     std::pair<string, int>  forwardListSort ("Forward_list sort (ms):", forwardListTimer.timeMilliSec());
-    excelValues.insert(forwardListSort);
-
+    containerTimings.insert(forwardListSort);
+// time how long it takes to find random string in vector, insert into map
     vectorTimer.start();
     find(sortedVector.begin(), sortedVector.end(), randomString);
     vectorTimer.stop();
-    //std::cout << "\nTime to find random word  with vector (seconds): " << vectorTimer.timeSecond() << std:: endl;
-    //std::cout << "Time to find random word  vector (milliseconds): " << vectorTimer.timeMilliSec()<< std::endl;
-    excelValues.insert(std::pair("Vector find (ms):", vectorTimer.timeMilliSec()));
+    containerTimings.insert(std::pair("Vector find (ms):", vectorTimer.timeMilliSec()));
+// time how long it takes to find random string in list, insert into map
     listTimer.start();
     find(sortedList.begin(), sortedList.end(), randomString);
     listTimer.stop();
-    //std::cout << "\nTime to find random word  with list (seconds): " << listTimer.timeSecond() << std:: endl;
-    //std::cout << "Time to find random word  list (milliseconds): " << listTimer.timeMilliSec()<< std::endl;
-    excelValues.insert(std::pair("List find (ms):", listTimer.timeMilliSec()));
+    containerTimings.insert(std::pair("List find (ms):", listTimer.timeMilliSec()));
+// time how long it takes to find random string in forward_list, insert into map
     forwardListTimer.start();
     find(sortedForwardList.begin(), sortedForwardList.end(), randomString);
     forwardListTimer.stop();
-    //std::cout << "\nTime to find random word with forward_list (seconds): " << forwardListTimer.timeSecond() << std:: endl;
-    //std::cout << "Time to find random word  forward_list (milliseconds): " << forwardListTimer.timeMilliSec()<< std::endl;
-    excelValues.insert(std::pair("Forward_list find (ms):", forwardListTimer.timeMilliSec()));
-
+    containerTimings.insert(std::pair("Forward_list find (ms):", forwardListTimer.timeMilliSec()));
+    writeToExcel(containerTimings);
 
     return 0;
 }
