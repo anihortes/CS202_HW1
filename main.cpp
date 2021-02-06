@@ -1,3 +1,9 @@
+/*
+ * A. Harrison Owen
+ * CS 202: Homework 1
+ * Professor Hartman
+ * 02/05/2021
+ */
 #include "StopWatch.h"
 #include <iostream>
 using std::cout;
@@ -15,9 +21,6 @@ using std::list;
 using std::forward_list;
 #include <algorithm>
 using std::sort;
-using std::search;
-using std::binary_search;
-using std::rotate;
 #include <random>
 using std::random_device;
 using std::mt19937;
@@ -40,8 +43,6 @@ vector<string> fileReadWithVector(const string &fileName){
         while (myFile >> nameCopy) {
             fileVector.push_back(nameCopy);
         }
-        //ALWAYS CLOSE FILE WHEN DONE READING
-        myFile.close();
     }
     return fileVector;
 }
@@ -60,8 +61,6 @@ list<string> fileReadWithList(const string &fileName){
         while (myFile >> nameCopy) {
             fileList.push_back(nameCopy);
         }
-        //ALWAYS CLOSE FILE WHEN DONE READING
-        myFile.close();
     }
     return fileList;
 }
@@ -97,8 +96,6 @@ forward_list<string> fileReadWithForwardList(const string &fileName, string &ran
             }
                 ++stringLocation;
         }
-        //ALWAYS CLOSE FILE WHEN DONE READING
-        myFile.close();
     }
     return fileForwardList;
 }
@@ -119,14 +116,19 @@ void writeToExcel(const map<string, int> &containerTimings){
         fileBuffer.close();
     }
 }
-
-
-int main() {
-    string fileName;
+void textPrompt(){
     cout << "Enter a number to select a file that you want to read." << endl;
     cout << "1) Frankenstein by Mary Shelley" << endl;
     cout << "2) Jane Eyre by Charlotte Bronte" << endl;
+    cout << "3) Dracula by Bram Stoker" << endl;
+    cout << "4) Moby Dick by Herman Melville" << endl;
+    cout << "5) Beowulf by J. Lesslie Hall" << endl;
     cout << "Enter here:";
+}
+
+int main() {
+    string fileName;
+    textPrompt();
     string bookTitle;
     getline(std::cin, bookTitle);
     while(true){
@@ -138,12 +140,21 @@ int main() {
             fileName = "jane eyre.txt";
             break;
         }
+        else if(bookTitle == "3"){
+            fileName = "dracula.txt";
+            break;
+        }
+        else if(bookTitle == "4"){
+            fileName = "moby dick.txt";
+            break;
+        }
+        else if(bookTitle == "5"){
+            fileName = "beowulf.txt";
+            break;
+        }
         else {
             cout << "Program cannot understand." << endl;
-            cout << "Please enter only the number to select a file to read.\n" << endl;
-            cout << "1) Frankenstein by Mary Shelley" << endl;
-            cout << "2) Jane Eyre by Charlotte Bronte" << endl;
-            cout << "Enter here: ";
+            textPrompt();
             getline(std::cin, bookTitle);
         }
     }
